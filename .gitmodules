@@ -1,0 +1,3 @@
+[submodule "Content/ExternalAssets"]
+	path = Content/ExternalAssets
+	url = https://github.com/Yeobi1124/ActionGameStucy_ExternalAssets.git
