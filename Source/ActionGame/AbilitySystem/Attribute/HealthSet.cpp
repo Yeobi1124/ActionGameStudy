@@ -12,7 +12,7 @@ UHealthSet::UHealthSet() : Health(100), MaxHealth(100)
 
 bool UHealthSet::PreGameplayEffectExecute(FGameplayEffectModCallbackData& Data)
 {
-	if (!Super::PreGameplayEffectExecute(Data)) return;
+	if (!Super::PreGameplayEffectExecute(Data)) return false;
 
 	HealthBeforeChange = GetHealth();
 	MaxHealthBeforeChange = GetMaxHealth();

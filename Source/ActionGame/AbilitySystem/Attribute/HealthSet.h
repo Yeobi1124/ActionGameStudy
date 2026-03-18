@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AttributeSet.h"
+#include "AbilitySystemComponent.h"
 #include "HealthSet.generated.h"
 
 #define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
@@ -12,7 +13,7 @@
 	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_SixParams(FAttributeChangedEvent, AActor*, EffectInstigator, AActor*, EffectCauser, FGameplayEffectSpec, EffectSpec, float, EffectMagnitude, float, OldValue, float, NewValue);
+DECLARE_MULTICAST_DELEGATE_SixParams(FAttributeChangedEvent, AActor* /*EffectInstigator*/, AActor* /*EffectCauser*/, FGameplayEffectSpec /*EffectSpec*/, float /*EffectMagnitude*/, float /*OldValue*/, float /*NewValue*/)
 
 /**
  * 
@@ -31,14 +32,9 @@ public:
 	ATTRIBUTE_ACCESSORS(UHealthSet, Heal);
 
 public:
-	UPROPERTY(BlueprintAssignable, Category  = "Attribute")
-	FAttributeChangedEvent OnHealthChanged;
-
-	UPROPERTY(BlueprintAssignable, Category = "Attribute")
-	FAttributeChangedEvent OnMaxHealthChanged;
-
-	UPROPERTY(BlueprintAssignable, Category = "Attribute")
-	FAttributeChangedEvent OnOutOfHealth;
+	mutable FAttributeChangedEvent OnHealthChanged;
+	mutable FAttributeChangedEvent OnMaxHealthChanged;
+	mutable FAttributeChangedEvent OnOutOfHealth;
 
 protected:
 
