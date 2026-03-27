@@ -3,6 +3,8 @@
 
 #include "Character/ActionGameHealthComponent.h"
 
+#include "ActionGame.h"
+
 UActionGameHealthComponent::UActionGameHealthComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
@@ -12,9 +14,15 @@ bool UActionGameHealthComponent::InitializeWithAbilitySystem(UAbilitySystemCompo
 {
 	if (InASC == nullptr) return false;
 
+	HealthSet = Cast<UHealthSet>(InASC->GetAttributeSet(UHealthSet::StaticClass()));
+	if (HealthSet == nullptr)
+	{
+		UE_LOG(LogActionGame, Warning, TEXT("Health Set not found."));
+		return false;
+	}
+
 	AbilitySystem = InASC;
 
-	HealthSet = Cast<UHealthSet>(AbilitySystem->GetAttributeSet(UHealthSet::StaticClass()));
 	HealthSet->OnHealthChanged.AddUObject(this, &ThisClass::HandleHealthChanged);
 	HealthSet->OnMaxHealthChanged.AddUObject(this, &ThisClass::HandleMaxHealthChanged);
 	HealthSet->OnOutOfHealth.AddUObject(this, &ThisClass::HandleOutOfHealth);
