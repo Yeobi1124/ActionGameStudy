@@ -52,10 +52,12 @@ void UActionGameHealthComponent::HandleOutOfHealth(AActor* Instigator, AActor* C
 
 float UActionGameHealthComponent::GetHealth() const
 {
+	if (HealthSet == nullptr) return 0;
 	return HealthSet->GetHealth();
 }
 
 float UActionGameHealthComponent::GetMaxHealth() const
 {
+	if (HealthSet == nullptr) return 0;
 	return HealthSet->GetMaxHealth();
 }
