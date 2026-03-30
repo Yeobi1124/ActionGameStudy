@@ -14,6 +14,8 @@ struct FInputActionValue;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerStateConnected, APlayerState*, NewPlayerState);
+
 /**
  *  A simple player-controllable third person character
  *  Implements a controllable orbiting camera
@@ -54,10 +56,16 @@ public:
 	/** Constructor */
 	AActionGameCharacter();
 
+	UPROPERTY(BlueprintAssignable)
+	FPlayerStateConnected OnPlayerStateConnected;
+
 protected:
 
 	/** Initialize input action bindings */
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	void PossessedBy(AController* NewController) override;
+	void OnRep_PlayerState() override;
 
 protected:
 
