@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "AbilitySystem/Attribute/HealthSet.h"
+#include "AbilitySystem/InitializeWithAbilitySystem.h"
 #include "ActionGameHealthComponent.generated.h"
 
 class UAbilitySystemComponent;
@@ -21,7 +22,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDeathEvent, AActor*, OwningActor);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_SixParams(FHealthChangedEvent, AActor*, EffectInstigator, AActor*, EffectCauser, FGameplayEffectSpec, EffectSpec, float, EffectMagnitude, float, OldValue, float, NewValue);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class ACTIONGAME_API UActionGameHealthComponent : public UActorComponent
+class ACTIONGAME_API UActionGameHealthComponent : public UActorComponent, public IInitializeWithAbilitySystem
 {
 	GENERATED_BODY()
 

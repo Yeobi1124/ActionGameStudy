@@ -10,6 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "GameFramework/PlayerState.h"
 #include "ActionGame.h"
 
 AActionGameCharacter::AActionGameCharacter()
@@ -70,6 +71,24 @@ void AActionGameCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	{
 		UE_LOG(LogActionGame, Error, TEXT("'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
 	}
+}
+
+void AActionGameCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	APlayerState* PS = NewController->GetPlayerState<APlayerState>();
+	if(PS != nullptr) OnPlayerStateConnected.Broadcast(PS);
+}
+
+void AActionGameCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+
+	if (GetController() == nullptr) return;
+
+	APlayerState* PS = GetController()->GetPlayerState<APlayerState>();
+	if(PS != nullptr) OnPlayerStateConnected.Broadcast(PS);
 }
 
 void AActionGameCharacter::Move(const FInputActionValue& Value)

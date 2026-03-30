@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "AbilitySystem/InitializeWithAbilitySystem.h"
 #include "AGActionCostComponent.generated.h"
 
 struct FGameplayEffectSpec;
@@ -13,7 +14,7 @@ class UActionCostSet;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FActionCostChangedEvent, AActor*, OwningActor, float, EffectMagnitude, float, OldValue, float, NewValue);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class ACTIONGAME_API UAGActionCostComponent : public UActorComponent
+class ACTIONGAME_API UAGActionCostComponent : public UActorComponent, public IInitializeWithAbilitySystem
 {
 	GENERATED_BODY()
 
